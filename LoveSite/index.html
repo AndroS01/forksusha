@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="uk">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Для моєї коханої Ксюши ❤️</title>
+    <link href="https://fonts.googleapis.com/css2?family=Caveat:wght@700&family=Montserrat:wght@400;600&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+    <div id="game-zone"></div>
+
+    <div id="sec-start" class="glass-card section active">
+        <h1>Для найдорожчої людини ❤️</h1>
+        <p>Тут міні-гра, де ти маєш спіймати мої сердечка.</p>
+        <button class="btn" onclick="startGame()">Почати гру 🎮</button>
+    </div>
+
+    <div id="sec-game" class="glass-card section">
+        <h1>Лови сердечки! ✨</h1>
+        <p>Клікай на сердечка, що падають, щоб збирати кохання.</p>
+        <div class="score-board">Впіймано: <span id="score">0</span> / 10</div>
+    </div>
+
+    <div id="sec-final" class="glass-card section">
+        <h1 style="font-size: 3.5rem; margin-bottom: 0.5rem;">Лист для тебе ✉️</h1>
+        
+        <div id="letter-box" class="letter-box"></div>
+        
+        <div id="code-container" class="code-input-container">
+            <span class="hint-text" style="line-height: 1.4; display: block; max-width: 85%; margin: 0 auto 15px;">
+                <strong>Шифр кохання:</strong><br>
+                2 літери твого імені+прізвища + 2 літери мого імені+прізвища + 2 літери нашої улюбленої гри + 2 літери нашого першого культового фільму + дата початку стосунків (ДД.ММ.РРРР) БЕЗ ПРОБІЛІВ І З МАЛЕНЬКОЇ БУКВИ
+            </span>
+            <input type="text" id="secret-code-input" class="secret-input" placeholder="Введіть секретний код..." oninput="checkCode()">
+        </div>
+    </div>
+
+    <div id="super-final">
+        <h1 style="font-size: 5rem; color: #d94060; animation: pulse 1.5s infinite alternate; text-shadow: 0 0 20px rgba(255,105,135,0.3); font-family: 'Caveat', cursive;">
+            Я ТЕБЕ ЛЮБЛЮ! 💖
+        </h1>
+        <p style="font-size: 1.5rem; margin-top: 20px; max-width: 600px; font-weight: 600; font-family: 'Montserrat', sans-serif;">
+            Ксюша ти пройшла, молодець! 
+        </p>
+    </div>
+
+    <script src="script.js"></script>
+</body>
+</html>

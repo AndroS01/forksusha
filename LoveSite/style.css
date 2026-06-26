@@ -1,0 +1,306 @@
+:root {
+    --primary-pink: #ff758c;
+    --secondary-pink: #ff7eb3;
+    --accent-purple: #b5179e;
+    --dark-purple: #240046;
+    --glass-bg: rgba(255, 255, 255, 0.5);
+    --glass-border: rgba(255, 255, 255, 0.4);
+    --text-color: #4a374a;
+}
+
+* {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+    user-select: none;
+}
+
+body {
+    font-family: 'Montserrat', sans-serif;
+    background: linear-gradient(135deg, #ffe5ec 0%, #ffc2d1 50%, #e0aaff 100%);
+    background-size: 400% 400%;
+    animation: gradientBG 15s ease infinite;
+    color: var(--text-color);
+    min-height: 100vh;
+    overflow: hidden;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    position: relative;
+}
+
+@keyframes gradientBG {
+    0% { background-position: 0% 50%; }
+    50% { background-position: 100% 50%; }
+    100% { background-position: 0% 50%; }
+}
+
+/* Скляна картка, яка тримає екрани купою і ховає неактивні */
+.glass-card {
+    background: var(--glass-bg);
+    backdrop-filter: blur(12px);
+    -webkit-backdrop-filter: blur(12px);
+    border: 1px solid var(--glass-border);
+    border-radius: 24px;
+    box-shadow: 0 8px 32px 0 rgba(232, 100, 180, 0.15);
+    padding: 2.5rem 2rem;
+    width: 90%;
+    max-width: 500px;
+    text-align: center;
+    z-index: 10;
+}
+
+/* ГОЛОВНЕ: ховаємо всі екрани за замовчуванням */
+.section {
+    display: none;
+    opacity: 0;
+    transform: scale(0.9);
+}
+
+/* Показуємо тільки той екран, у якого є клас active */
+.section.active {
+    display: block;
+    animation: popIn 0.6s cubic-bezier(0.175, 0.885, 0.32, 1.275) forwards;
+}
+
+@keyframes popIn {
+    to {
+        opacity: 1;
+        transform: scale(1);
+    }
+}
+
+h1 {
+    font-family: 'Caveat', cursive;
+    font-size: 3.2rem;
+    color: #d94060;
+    margin-bottom: 1.5rem;
+}
+
+p {
+    font-size: 1.1rem;
+    line-height: 1.5;
+    margin-bottom: 1.5rem;
+}
+
+.btn {
+    background: linear-gradient(45deg, var(--primary-pink), var(--accent-purple));
+    border: none;
+    color: white;
+    padding: 14px 32px;
+    font-size: 1.1rem;
+    font-weight: 600;
+    border-radius: 50px;
+    cursor: pointer;
+    box-shadow: 0 4px 15px rgba(255, 117, 140, 0.4);
+    transition: transform 0.2s, box-shadow 0.2s;
+}
+
+.btn:hover {
+    transform: scale(1.05);
+    box-shadow: 0 6px 20px rgba(181, 23, 158, 0.5);
+}
+
+/* Ігрова зона */
+#game-zone {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 100vh;
+    pointer-events: none;
+    z-index: 5;
+}
+
+#game-zone.active {
+    pointer-events: auto;
+}
+
+.score-board {
+    font-size: 1.5rem;
+    font-weight: bold;
+    color: #b5179e;
+    margin-bottom: 1rem;
+}
+
+.game-heart {
+    position: absolute;
+    font-size: 2.5rem;
+    cursor: pointer;
+    animation: fallDown linear forwards;
+}
+
+@keyframes fallDown {
+    0% { transform: translateY(-50px) scale(1); opacity: 1; }
+    100% { transform: translateY(105vh) scale(0.8); opacity: 0; }
+}
+
+.click-heart {
+    position: fixed;
+    pointer-events: none;
+    font-size: 1.5rem;
+    z-index: 999;
+    animation: floatUp 1s ease-out forwards;
+}
+
+@keyframes floatUp {
+    0% { transform: translate(-50%, -50%) scale(0.5); opacity: 1; }
+    100% { transform: translate(calc(-50% + var(--x-move)), -150px) scale(1.5); opacity: 0; }
+}
+
+/* Лист */
+.letter-box {
+    background: rgba(255, 255, 255, 0.7);
+    border-radius: 16px;
+    padding: 0;
+    margin: 1.5rem 0;
+    text-align: left;
+    font-style: italic;
+    line-height: 1.6;
+    max-height: 0;
+    opacity: 0;
+    overflow: hidden;
+    transition: max-height 1s ease, opacity 0.8s ease, padding 0.5s ease;
+}
+
+.letter-box.open {
+    max-height: 350px;
+    opacity: 1;
+    padding: 20px;
+    overflow-y: auto;
+}
+
+/* Код */
+.code-input-container {
+    margin-top: 1.5rem;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 10px;
+    opacity: 0;
+    transform: translateY(20px);
+    transition: all 0.6s ease;
+}
+
+.code-input-container.show {
+    opacity: 1;
+    transform: translateY(0);
+}
+
+.secret-input {
+    background: rgba(255, 255, 255, 0.7);
+    border: 2px solid var(--primary-pink);
+    border-radius: 25px;
+    padding: 12px 20px;
+    font-size: 1.1rem;
+    width: 80%;
+    max-width: 300px;
+    text-align: center;
+    outline: none;
+    font-weight: 600;
+    transition: all 0.3s ease;
+}
+
+.secret-input:focus {
+    box-shadow: 0 0 15px rgba(181, 23, 158, 0.6);
+    border-color: var(--accent-purple);
+    background: rgba(255, 255, 255, 0.9);
+}
+
+.hint-text {
+    font-size: 0.85rem;
+    color: #6b5b6b;
+}
+
+/* ==========================================
+   ВИПРАВЛЕНІ СТИЛІ ДЛЯ ВИБУХІВ СЕРДЕЧОК (САЛЮТІВ)
+   ========================================== */
+.burst-heart {
+    position: fixed;
+    pointer-events: none;
+    z-index: 10000;
+    font-size: 2.5rem; /* Задаємо великий розмір для сердечок */
+    line-height: 1;
+    transform: translate(-50%, -50%) scale(0);
+    animation: burst 1.2s cubic-bezier(0.1, 0.8, 0.3, 1) forwards;
+}
+
+@keyframes burst {
+    0% { 
+        transform: translate(-50%, -50%) scale(0); 
+        opacity: 1; 
+    }
+    100% { 
+        /* Розраховуємо коректний розліт у напрямку, заданому в JS */
+        transform: translate(calc(-50% + var(--tw-x)), calc(-50% + var(--tw-y))) scale(var(--tw-s)); 
+        opacity: 0; 
+    }
+}
+
+/* Глітч та фіолетове затемнення */
+.glitch-fade {
+    animation: megaGlitch 0.3s ease infinite, screenBurn 2.5s cubic-bezier(0.7, 0, 0.3, 1) forwards;
+}
+
+@keyframes megaGlitch {
+    0% { transform: translate(0) skew(0deg); filter: hue-rotate(0deg); }
+    20% { transform: translate(-4px, 3px) skew(-5deg); filter: hue-rotate(90deg); }
+    50% { transform: translate(-2px, -4px) skew(-2deg); filter: hue-rotate(270deg); }
+    100% { transform: translate(0) skew(0deg); }
+}
+
+@keyframes screenBurn {
+    0% { background: linear-gradient(135deg, #ffe5ec 0%, #ffc2d1 50%, #e0aaff 100%); }
+    100% { opacity: 0; background: var(--dark-purple); filter: blur(20px) brightness(0); }
+}
+
+/* Суперфінал */
+#super-final {
+    position: fixed;
+    top: 0; left: 0;
+    width: 100vw; height: 100vh;
+    background: radial-gradient(circle, #3c096c 0%, #240046 70%, #10002b 100%);
+    display: none;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    z-index: 9999;
+    opacity: 0;
+    transition: opacity 1.5s ease;
+    text-align: center;
+    padding: 20px;
+}
+
+#super-final.show {
+    display: flex;
+    opacity: 1;
+}
+
+#super-final h1 {
+    font-size: 5.5rem;
+    color: #fff;
+    animation: neonPulse 2s infinite alternate;
+}
+
+/* Оновлений опис (тепер він білий, чіткий і плавно з'являється) */
+#super-final p {
+    font-size: 1.6rem;
+    color: #ffffff; 
+    margin-top: 25px;
+    max-width: 600px;
+    font-weight: 600;
+    font-family: 'Montserrat', sans-serif;
+    text-shadow: 0 2px 10px rgba(0, 0, 0, 0.7);
+    opacity: 0;
+    animation: fadeInDelayed 2s ease forwards;
+    animation-delay: 1.2s; /* З'являється трохи пізніше за основний заголовок */
+}
+
+@keyframes fadeInDelayed {
+    to { opacity: 1; }
+}
+
+@keyframes neonPulse {
+    from { transform: scale(1); text-shadow: 0 0 10px #fff, 0 0 20px var(--secondary-pink), 0 0 40px var(--accent-purple); }
+    to { transform: scale(1.05); text-shadow: 0 0 15px #fff, 0 0 30px var(--primary-pink), 0 0 60px var(--accent-purple); }
+}
